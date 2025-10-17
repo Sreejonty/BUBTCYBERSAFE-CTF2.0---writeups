@@ -1,2 +1,2 @@
-<script>alert("be_careful)</script>
-<script>alert(document.cookie)</script>
+question-1 answer --> <script>alert("be_careful)</script>
+question-2 answer --> <script>alert(document.cookie)</script>
