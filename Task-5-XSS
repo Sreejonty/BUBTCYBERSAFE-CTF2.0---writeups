@@ -1,0 +1,2 @@
+<script>alert("be_careful)</script>
+<script>alert(document.cookie)</script>
